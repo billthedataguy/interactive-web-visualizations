@@ -1,0 +1,36 @@
+/* style.css */
+
+#banner-card {
+
+    background-color: lightgray;
+    
+}
+
+#drop-down-card {
+
+    background-color: aqua;
+}
+
+#hor-bar-card {
+
+    background-color: bisque;
+
+}
+
+#gauge-card {
+
+    background-color: green;
+
+}
+
+#demographics-card {
+
+    background-color: red;
+
+}
+
+#bubble-card {
+
+    background-color: yellow;
+
+}
