@@ -12,83 +12,41 @@ d3.json(dataUrl).then(function(data) {
   let metadata = Object.values(data.metadata);
   let samples = Object.values(data.samples);
 
-  let nineSixty = names.filter(x => x == 960);
-  let nineSixtyMetadata = metadata.filter(x => (x.id == `${nineSixty}`))[0];
 
-  console.log(nineSixty);
-  console.log(nineSixtyMetadata);
-  console.log(`${nineSixtyMetadata.id}`);
-  console.log(`${nineSixtyMetadata.ethnicity}`);
-  console.log(`${nineSixtyMetadata.gender}`);
-  console.log(`${nineSixtyMetadata.age}`);
-  console.log(`${nineSixtyMetadata.location}`);
-  console.log(`${nineSixtyMetadata.bbtype}`);
-  console.log(`${nineSixtyMetadata.wfreq}`);
+  console.log("Num of names: ", `${names.length}`)
+
+  let aNavel = names.filter(x => x == 960);
+  let aNavelMetadata = metadata.filter(x => (x.id == `${aNavel}`))[0];
+  let aNavelSamples = samples.filter(x => (x.id == `${aNavel}`))[0];
+
+  let otuIds = `${aNavelSamples.otu_ids}`;
+  let otuLabels = `${aNavelSamples.otu_labels}`
+
+  let sampleValues = `${aNavelSamples.sample_values}`;
+
+  let id = `${aNavelMetadata.id}`;
+  let ethnicity = `${aNavelMetadata.ethnicity}`;
+  let gender = `${aNavelMetadata.gender}`;
+  let age = `${aNavelMetadata.age}`;
+  let location = `${aNavelMetadata.location}`;
+  let bbtype = `${aNavelMetadata.bbtype}`;
+  let wfreq = `${aNavelMetadata.wfreq}`;
 
 
 
-  // 
-  // console.log(samples.filter(x => x.id == 960));
 
-               
+  
+
+  console.log("ID: ", `${id}`);
+  console.log("Ethnicity: ", `${ethnicity}`);
+  console.log("Gender: ", `${gender}`);
+  console.log("Age: ", `${age}`);
+  console.log("Location: ", `${location}`);
+  console.log("bbtype: ", `${bbtype}`);
+  console.log("wfreq: ", `${wfreq}`);
+
+  console.log("Otu_ids: ", `${otuIds}`);
+  console.log("Otu_labels: ", `${otuLabels}`);
+  console.log("Sample_values: ", `${sampleValues}`);
 
 });
-
-let xData1 = [1, 2, 3, 4, 5];
-let yData1 = ["one", "two", "three", "four", "five"];
-
-
-let trace1 = {
-  x: xData1,
-  y: yData1,
-  type: 'bar',
-  orientation: 'h'
-};
-
-let data1 = [trace1];
-
-let layout1 = {
-  title: "A Plotly plot"
-};
-
-Plotly.newPlot("barchart", data1);
-
-
-let xData2 = [1, 2, 3, 4, 5];
-let yData2 = [1, 2, 4, 8, 16];
-
-
-let trace2 = {
-    values: xData2,
-    labels: yData2,    
-    type: 'pie'
-  };
- 
-  let data2 = [trace2];
- 
-  let layout2 = {
-    title: "A Plotly plot"
-  };
- 
-  Plotly.newPlot("piechart", data2, layout2);
-
-
-  let trace3 = {
-      x: [1, 2, 3, 4],
-      y: [10, 11, 12, 13],
-      mode: 'markers',
-      marker: {
-        size: [40, 60, 80, 100]
-      }
-    };
-   
-    let data3 = [trace3];
-   
-    let layout3 = {
-      title: 'Marker Size',
-      showlegend: false,
-      height: 500,
-      width: 1250
-    };
-   
-    Plotly.newPlot("bubblechart", data3, layout3);
