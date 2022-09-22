@@ -36,21 +36,32 @@
     <div class="container data-cards">
         <!-- First Row -->
         <div class="row">
-            <div class="col-md-3">
-                <div class="card text-center" id="drop-down-card">        
+            <div class="col-md-2">
+                <div class="card text-center" id="drop-down-card">   
+                    <div class="card-header">
+                        Featured
+                    </div>   
                     <div class="card-body">
-                        <h3 class="heading">Test Subject ID No.:</h3>
-                        <select id="selDataset" onchange="optionChanged(this.value)"></select>
-                        <br> 
+                        <h5 class="card-title">Test Subject ID No.:</h5>                        
+                        <select id="selDataset" onchange="optionChanged(this.value)">
+                            <li>960</li>
+                            <li>961</li>
+                        </select>
                     </div>
+                    <div class="card-footer">
+                        Demographic Info
+                        key1:val1<br>
+                        key2:val2<br>
+                    </div>                      
                 </div>
-            </div>
+            </div>          
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="card text-center" id="hor-bar-card">        
                     <div class="card-body">
                         <h3 class="heading">Horizontal bar chart</h3>             
                         <br> 
+                        <div id="barchart"></div>
                     </div>
                 </div>
             </div>
@@ -61,37 +72,26 @@
                         <h3 class="heading">Belly Button Washing Frequency</h3>
                         <h3>Scrubs per Week</h3>  
                         <br> 
+                        <div id="piechart"></div>
                     </div>
                 </div>
             </div>
+
+        
         </div>
-            
 
         <!-- Second Row -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card text-center" id="demographics-card">        
-                    <div class="card-body">
-                        <h3 class="heading">Demographic Info</h3>
-                        <h3>key:value pairs</h3>  
-                        <br> 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Third Row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card text-center" id="bubble-card">        
                     <div class="card-body">
                         <h3 class="heading">Bubble Chart</h3>
                         <br> 
+                        <div id="bubblechart"></div>
                     </div>
                 </div>
             </div>
-        </div>
-
+        </div>       
     </div>
 
   <script src="https://d3js.org/d3.v5.min.js"></script>
