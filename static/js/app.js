@@ -1,5 +1,7 @@
 // app.js
 
+let dataset;
+
 const dataUrl = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
 // Use the D3 library to read in samples.json from the URL
@@ -8,33 +10,46 @@ const dataUrl = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classr
 
 d3.json(dataUrl).then(function(data) {
 
-  // console.log(data);
-
-  let names = Object.values(data.names);
-
-  let metadata = Object.values(data.metadata);
-
-  let samples = Object.values(data.samples);
-  
-  // console.log("NAMES: ", names);
-  // console.log("METADATA: ", metadata);
-  // console.log("SAMPLES: ", samples);
-
-  console.log("Length of names array: ", names.length)
+    let dataset = data;
+    let names = Object.values(data.names);
+    let metadata = Object.values(data.metadata);
+    let samples = Object.values(data.samples);
 
   
-  console.log("ID: ", names[1]);
-  console.log("Demographics: ", metadata[1]);
-  console.log("Sample data: ", samples[1]);
-  console.log(`\n\n`);
+    console.log("ID: ", names[1]);
+    console.log("Demographics: ", metadata[1]);
+    console.log("Sample data: ", samples[1]);
+    console.log(`\n\n`);
 
-  let table = d3.select("table");
-  table.attr("class", "table table-striped");
-  let tbody = d3.select("tbody");
-  let trow = tbody.append("tr");
-  trow.append("td").text("Id: ", names[1]);
-  trow.append("td").text("Demographics: ", metadata[1]);
-  trow.append("td").text("Sample data: ", samples[1]);
+    d3.select("#selDataset").selectAll("option")
+        .data(names)
+        .enter()
+        .append("option")
+        .text(function(d) {return d; })
+        .attr("value", function(d) {return d; }); 
+
+    // d3.select("#selDataset").on("change", updatePlotly);
+
+    let dropDownSelection = d3.select("#selDataset");
+    let selection = dropDownSelection.property("value");
+
+    let demoTable = d3.select(".card-footer").append("table").attr("class", "table table-striped");
+    let demoTableHead = demoTable.append("thead").text("Demographic Info");
+    let demoTableBody = demoTable.append("tbody");
+    let row = demoTableBody.append("tr");
+
+    row.append("td").text(`${dropDownSelection}`);
+
+        
+        
+    
+    
+
+
+
+    
+
+
 
 
 
@@ -92,3 +107,11 @@ d3.json(dataUrl).then(function(data) {
   // console.log("Otu_ids: ", `${otuIds}`);
   // console.log("Otu_labels: ", `${otuLabels}`);
   // console.log("Sample_values: ", `${sampleValues}`);
+
+  // let table = d3.select("table");
+  //   table.attr("class", "table table-striped");
+  //   let tbody = d3.select("tbody");
+  //   let trow = tbody.append("tr");
+  //   trow.append("td").text("Id: ", names[1]);
+  //   trow.append("td").text("Demographics: ", metadata[1]);
+  //   trow.append("td").text("Sample data: ", samples[1]);
