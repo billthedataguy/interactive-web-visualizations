@@ -1,117 +1,198 @@
 // app.js
 
-let dataset;
+const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
-const dataUrl = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+let dataCache;
+let selector;
 
-// Use the D3 library to read in samples.json from the URL
+// ***************************************************************************
 
-// Fetch the JSON data and console log it
+function optionChanged(sel) {
 
-d3.json(dataUrl).then(function(data) {
+    selector = sel;    
 
-    let dataset = data;
-    let names = Object.values(data.names);
-    let metadata = Object.values(data.metadata);
-    let samples = Object.values(data.samples);
+    renderTable();
+    makeBarChart();
+    makeBubbleChart();
+    makeGaugeChart();
 
-  
-    console.log("ID: ", names[1]);
-    console.log("Demographics: ", metadata[1]);
-    console.log("Sample data: ", samples[1]);
-    console.log(`\n\n`);
+}
 
-    d3.select("#selDataset").selectAll("option")
-        .data(names)
+// ***************************************************************************
+
+function populateDropDownList() {
+
+    let dropDownList = d3.select("#selDataset");
+    dropDownList.selectAll("option")
+        .data(dataCache.names)
         .enter()
         .append("option")
         .text(function(d) {return d; })
-        .attr("value", function(d) {return d; }); 
+        .attr("value", function(d) {return d; });  
 
-    // d3.select("#selDataset").on("change", updatePlotly);
+}
 
-    let dropDownSelection = d3.select("#selDataset");
-    let selection = dropDownSelection.property("value");
+// ***************************************************************************
 
-    let demoTable = d3.select(".card-footer").append("table").attr("class", "table table-striped");
-    let demoTableHead = demoTable.append("thead").text("Demographic Info");
-    let demoTableBody = demoTable.append("tbody");
-    let row = demoTableBody.append("tr");
+function renderTable() {
 
-    row.append("td").text(`${dropDownSelection}`);
+    let demographicData = dataCache.metadata.filter(m => m.id == selector)[0];
 
+    let keys = Object.keys(demographicData);
+    console.log("DEMOGRAPHIC KEYS: ", `${keys}`);
+
+    let values = Object.values(demographicData);    
+    console.log("DEMOGRAPHIC VALUES: ", `${values}`);   
+
+    d3.select("#demo-table").html("");
+    let demoTable = d3.select("#demo-table").append("table").attr("class", "table table-striped");
         
+    for (i=0; i<keys.length; i++) {
+        demoTable.append("tbody").append("tr").text(keys[i]).append("td").text(values[i]);
+    }
+
+}
+
+// ***************************************************************************
+
+function compareNumbers(a, b) {
+
+    return b - a;
+
+}
+
+// ***************************************************************************
+
+function makeBarChart() {
+    
+    let sampleValues = dataCache.samples.filter(m => m.id == selector)[0]
+        .sample_values.sort(compareNumbers)
+        .slice(0,10)
+        .reverse();
+
+    let sampleLabels = dataCache.samples.filter(m => m.id == selector)[0]
+        .otu_ids.sort(compareNumbers)
+        .slice(0,10)
+        .map((x) => ("OTU " + x))
+        .reverse();               
+
+    console.log("SAMPLE_VALUES = ", sampleValues);
+    
+    let trace = {
+      x: sampleValues, 
+      y: sampleLabels,
+      type: "bar",
+      orientation: "h"
+    };
+  
+    let data = [trace];
+
+    Plotly.newPlot("barchart", data);
+
+  }
+
+// ***************************************************************************
+
+function makeBubbleChart() {
+
+    let otuIds = dataCache.samples.filter(m => m.id == selector)[0]
+        .otu_ids.sort(compareNumbers);              
+
+    let sampleValues = dataCache.samples.filter(m => m.id == selector)[0]
+        .sample_values.sort(compareNumbers);
         
+    let otuLabels = dataCache.samples.filter(m => m.id == selector)[0]
+        .otu_labels.sort(compareNumbers);
+
+    let trace = {
+
+        x: otuIds,
+        y: sampleValues,
+        mode: "markers",
+        marker: {
+                    size: sampleValues,
+                    color: otuIds
+                },
+        text: otuLabels
+        
+    };
+      
+    let data = [trace];
     
+    let layout = {
     
+        showlegend: false,
+        height: 1000,
+        width: 1200
 
+    };
+      
+    Plotly.newPlot("bubblechart", data, layout);
 
+}
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-});
-
-
+// ***************************************************************************
   
-   
+function makeGaugeChart() {
 
+    let washFreq = dataCache.metadata.filter(m => m.id == selector)[0].wfreq;      
 
-// });
+    let data = [
+        {
+            domain: { x: [0, 1], y: [0, 1] },
+            value: washFreq,            
+            type: "indicator",
+            mode: "gauge+number",
+            // delta: { reference: 10 },
+            gauge: { axis: {range: [0, 10] } }
+        }
+    ];
+    
+    let layout = { 
+        width: 500, 
+        height: 400, 
+        margin: { 
+                    t: 0, 
+                    b: 0 
+                } 
+        };
 
-
-  // console.log("Num of names: ", `${names.length}`)
-
-  // let aNavel = names.filter(x => x == 960);
-  // let aNavelMetadata = metadata.filter(x => (x.id == `${aNavel}`))[0];
-  // let aNavelSamples = samples.filter(x => (x.id == `${aNavel}`))[0];
-
-  // let otuIds = `${aNavelSamples.otu_ids}`;
-  // let otuLabels = `${aNavelSamples.otu_labels}`
-
-  // let sampleValues = `${aNavelSamples.sample_values}`;
-
-  // let id = `${aNavelMetadata.id}`;
-  // let ethnicity = `${aNavelMetadata.ethnicity}`;
-  // let gender = `${aNavelMetadata.gender}`;
-  // let age = `${aNavelMetadata.age}`;
-  // let location = `${aNavelMetadata.location}`;
-  // let bbtype = `${aNavelMetadata.bbtype}`;
-  // let wfreq = `${aNavelMetadata.wfreq}`;
-
-
-
-
+    Plotly.newPlot("gaugechart", data, layout);
+       
+}
   
 
-  // console.log("ID: ", `${id}`);
-  // console.log("Ethnicity: ", `${ethnicity}`);
-  // console.log("Gender: ", `${gender}`);
-  // console.log("Age: ", `${age}`);
-  // console.log("Location: ", `${location}`);
-  // console.log("bbtype: ", `${bbtype}`);
-  // console.log("wfreq: ", `${wfreq}`);
+// ***************************************************************************
 
-  // console.log("Otu_ids: ", `${otuIds}`);
-  // console.log("Otu_labels: ", `${otuLabels}`);
-  // console.log("Sample_values: ", `${sampleValues}`);
 
-  // let table = d3.select("table");
-  //   table.attr("class", "table table-striped");
-  //   let tbody = d3.select("tbody");
-  //   let trow = tbody.append("tr");
-  //   trow.append("td").text("Id: ", names[1]);
-  //   trow.append("td").text("Demographics: ", metadata[1]);
-  //   trow.append("td").text("Sample data: ", samples[1]);
+function init() {
+
+    // loadJson();    
+    
+    d3.json(url).then( (fetchedData)=> {
+
+        dataCache = fetchedData;
+    
+        let names = fetchedData.names;
+        console.log("NAMES: ", names.slice(0,10));
+
+        selector = names[0];
+        console.log("SELECTOR: ", selector);
+    
+        let metadata = fetchedData.metadata;
+        console.log("METADATA: ", metadata.slice(0,10));
+    
+        let samples = fetchedData.samples;
+        console.log("SAMPLES: ", samples.slice(0,10));           
+        
+        populateDropDownList();   
+        makeBarChart();
+        makeBubbleChart();
+        makeGaugeChart();    
+        renderTable(); 
+                    
+    }); 
+             
+}
+
+init();
