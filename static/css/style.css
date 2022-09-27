@@ -1,46 +1,99 @@
 /* style.css */
 
+.img-thumbnail {
+
+    height: 100px;
+    width: 100px;
+
+
+}
+
+.in-courier {
+
+    font-family:'Courier New', Courier, monospace;
+    font-weight: bold;
+
+}
+
+#selDataset {
+
+    font-family:'Courier New', Courier, monospace;
+    font-weight: bold;
+
+}
+
 #banner-card {
 
     background-color: lightgray;
+    padding: 5px;
+    margin: 5px;
+    border: 5px;
     
 }
 
 #drop-down-card {
 
-    background-color: aqua;
+    background-color:blanchedalmond;
+    padding: 5px;
+    margin: 5px;
+    border: 5px;
+
 }
 
 #hor-bar-card {
 
-    background-color: bisque;
+    background-color: white;
+    padding: 5px;
+    margin: 5px;
+    border: 5px;
 
 }
 
 #gauge-card {
 
-    background-color: green;
+    background-color: white;
+    padding: 5px;
+    margin: 5px;
+    border: 5px;
 
 }
 
-#demographics-card {
+#demo-card {
 
     background-color: white;
-    color: white;
-}
-
-.card-header {
-
-    background-color: blue;
-}
-
-.card-body {
-
     color: black;
+    padding: 5px;
+    margin: 5px;
+    border: 5px;
+
 }
 
 #bubble-card {
 
-    background-color: yellow;
+    background-color: white;
+    padding: 5px;
+    margin: 5px;
+    border: 5px;
+
+}
+
+table {
+
+    font-family:'Courier New', Courier, monospace;
+
+}
+
+tr {
+
+    text-align: left;
+    color: black;
+    font-weight: bold;
+
+}
+
+td {
+
+    text-align: left;
+    font-weight:normal;
 
 }

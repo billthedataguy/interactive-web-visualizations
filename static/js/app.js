@@ -1,6 +1,10 @@
 // app.js
 
+// Data endpoint url
+
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+
+// Define global variables
 
 let dataCache;
 let selector;
@@ -14,19 +18,19 @@ let otuLabels;
 let washFreq;
 let names;
 
-
-
-
-
 // ***************************************************************************
 
+// Function called by changes to Test Subject ID No. dropdown (id="selDataset")
+
 function optionChanged(sel) {
-    selector = sel;    
+               
+    selector = sel;
 
     renderTable();
     makeBarChart();
     makeBubbleChart();
     makeGaugeChart();
+   
 }
 
 // ***************************************************************************
@@ -96,7 +100,7 @@ function makeBarChart() {
 
     let layout = {        
         font:{
-            family: 'Raleway, sans-serif'
+            family: "Courier"
         },
         showlegend: false,
         xaxis: {
@@ -133,12 +137,15 @@ function makeGaugeChart() {
     ];
     
     let layout = { 
-        width: 380, 
-        height: 300, 
+        width: 500, 
+        height: 250, 
         margin: { 
                     t: 0, 
                     b: 0 
-                } 
+                },
+        font:{
+               family: "Courier"
+             } 
         };
 
     Plotly.newPlot("gaugechart", data, layout);       
@@ -163,8 +170,15 @@ function makeBubbleChart() {
         mode: "markers",
         marker: {
                     size: sampleValues,
-                    color: otuIds,
-                    colorscale: "Rainbow"
+                    color: otuIds,                    
+                    colorscale: [
+                        [0, "rgb(166,206,227)"], 
+                        [0.25, "rgb(31,120,180)"], 
+                        [0.45, "rgb(178,223,138)"], 
+                        [0.65, "rgb(51,160,44)"], 
+                        [0.85, "rgb(251,154,153)"], 
+                        [1, "rgb(227,26,28)"]            
+                    ]
                 },
         text: otuLabels            
     };
@@ -174,8 +188,12 @@ function makeBubbleChart() {
     let layout = {    
         showlegend: false,
         height: 1000,
-        width: 1250,
-        xaxis:  { title: { text: "OTU ID" } }
+        width: 1260,
+        xaxis:  { title: { text: "OTU ID" } },
+        font: {
+                    family: "Courier"
+              } 
+     
     };
       
     Plotly.newPlot("bubblechart", data, layout);

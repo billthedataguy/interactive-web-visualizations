@@ -21,74 +21,119 @@
 
     <!-- Banner  -->
     <div class="container banner-header">
+
+        <!-- Row 1 -->
         <div class="row">
+
+            <!-- Column 1 -->
             <div class="col-md-12">
-                <div class="card text-center" id="banner-card">        
-                    <div class="card-body">
-                        <h1 class="heading">Belly Button Biodiversity <br>Dashboard</h1>
-                        <h5>Use the interactive charts below to explore the dataset</h5>  
-                        <br> 
+
+                <!-- id=banner-card -->
+                <div class="card text-center w-100" id="banner-card">    
+                    <div class="card-body">                   
+                        <h1 class="heading">Belly Button Biodiversity <br>Dashboard</h1>     
+
+                        <figure class="figure">
+                            <img src="static/images/outie.jpg" class="figure-img img-thumbnail rounded" alt="outie">
+                            <figcaption class="figure-caption text-center">Outie</figcaption>
+                        </figure>                                        
+
+                        <figure class="figure">
+                            <img src="static/images/innie.jpg" class="figure-img img-thumbnail rounded" alt="innie">
+                            <figcaption class="figure-caption text-center">Innie</figcaption>
+                        </figure>
+
+                        <h6>Use the interactive charts below to explore the dataset</h6>  
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+    
 
     <!-- Cards  -->
     <div class="container data-cards">
-        <!-- First Row -->
+        <hr>
+
+        <!-- Row 1 -->
         <div class="row">
+
+            <!-- Column 1 -->
             <div class="col-md-3">
-                <div class="card text-center" id="drop-down-card">   
+
+                <!-- id=drop-down-card -->
+                <div class="card text-center w-100" id="drop-down-card">   
                     <div class="card-body">
                         <h5 class="card-title">Test Subject ID No.:</h5>                        
                         <select id="selDataset" onchange="optionChanged(this.value)">                          
                         </select>
                     </div>              
                 </div>
-                <div class="card text-center" id="demo-card">        
+
+                <!-- id=demo-card -->
+                <div class="card text-center w-100" id="demo-card">        
                     <div class="card-body">
                         <h5 class="heading">Demographic Info</h5>
                         <br> 
                         <div id="demo-table"></div>
                     </div>
                 </div>
+
             </div>          
 
+            <!-- Column 2 -->
             <div class="col-md-4">
-                <div class="card text-center" id="hor-bar-card">        
+
+                <!-- id=hor-bar-card -->
+                <div class="card text-center w-100" id="hor-bar-card">        
                     <div class="card-body">                        
                         <div id="barchart"></div>
                     </div>
                 </div>
-            </div>
 
+            </div>
+            
+            <!-- Column 3 -->
             <div class="col-md-5">
-                <div class="card text-center" id="gauge-card">        
+
+                <!-- id=gauge-card -->
+                <div class="card text-center w-100" id="gauge-card">        
                     <div class="card-body">
                         <h3 class="heading">Belly Button Washing Frequency</h3>
-                        <h6>Scrubs per Week</h6>  
+                        <h6 class="in-courier">Scrubs per Week</h6>  
                         <br> 
                         <div id="gaugechart"></div>
                     </div>
                 </div>
+
             </div>
 
         
         </div>
 
-        <!-- Second Row -->
+        <!-- Row 2 -->
         <div class="row">
+
+            <!-- Column 1 -->
             <div class="col-md-12">
-                <div class="card text-center" id="bubble-card">        
+
+                <!-- id=bubble-card -->
+                <div class="card text-center w-100" id="bubble-card">        
                     <div class="card-body">
                         <div id="bubblechart"></div>
                     </div>
                 </div>
+
             </div>
-        </div>              
+
+        </div>           
+
     </div>
 
+
+  <!-- Bring in d3 and plotly, then my js logic -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="./static/js/app.js"></script>  
