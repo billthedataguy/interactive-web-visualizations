@@ -35,15 +35,15 @@
 
         Main dashboard html webpage.
 
-3. [/static/css/style.css](static/css/style.css)
+3. [style.css](/static/css/style.css)
 
         Customized CSS added over the Bootstrap CSS. 
 
-4. [/static/images/innie.jpg](innie.jpg)
+4. [innie.jpg](/static/images/innie.jpg)
 
         Jpg of innie belly button from Wikimedia Commons.
 
-5. [/static/images/outie.jpg](outie.jpg)
+5. [outie.jpg](/static/images/outie.jpg)
 
         Jpg of outie belly button from Wikimedia Commons.
 
