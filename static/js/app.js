@@ -125,7 +125,7 @@ function makeBubbleChart() {
     
         showlegend: false,
         height: 1000,
-        width: 1200,
+        width: 1250,
         xaxis: {
             title: {
               text: "OTU ID",
@@ -156,7 +156,7 @@ function makeGaugeChart() {
     ];
     
     let layout = { 
-        width: 500, 
+        width: 380, 
         height: 400, 
         margin: { 
                     t: 0, 
