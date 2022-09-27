@@ -47,7 +47,7 @@ function renderTable() {
     d3.select("#demo-table").html("");
     let demoTable = d3.select("#demo-table").append("table").attr("class", "table table-striped");
         
-    for (i=0; i<keys.length; i++) {
+    for (let i=0; i<keys.length; i++) {
         demoTable.append("tbody").append("tr").text(keys[i]).append("td").text(values[i]);
     }
 
@@ -111,9 +111,11 @@ function makeBubbleChart() {
         mode: "markers",
         marker: {
                     size: sampleValues,
-                    color: otuIds
+                    color: otuIds,
+                    colorscale: "Rainbow"
                 },
         text: otuLabels
+             
         
     };
       
@@ -123,7 +125,12 @@ function makeBubbleChart() {
     
         showlegend: false,
         height: 1000,
-        width: 1200
+        width: 1200,
+        xaxis: {
+            title: {
+              text: "OTU ID",
+                   }
+        }
 
     };
       
