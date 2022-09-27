@@ -27,7 +27,7 @@
 
 
 
-1. [/static/js/app.js](app.js)
+1. [app.js](/static/js/app.js)
 
         Contains all JavaScript logic for the interactive dashboard.
 
