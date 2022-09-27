@@ -9,23 +9,20 @@ const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/
 let dataCache;
 let selector;
 
-let sampleValues;
-let sampleLabels;
-
-let otuIds;
-let otuLabels;
-
-let washFreq;
-let names;
-
 // ***************************************************************************
 
 // Function called by changes to Test Subject ID No. dropdown (id="selDataset")
 
 function optionChanged(sel) {
-               
-    selector = sel;
 
+    // Clear the console to see new data for this selection
+    console.clear();
+    console.log("SEL: ", sel);
+
+    selector = sel;
+    console.log("SELECTOR: ", selector);
+
+    // Make table and charts
     renderTable();
     makeBarChart();
     makeBubbleChart();
@@ -34,6 +31,8 @@ function optionChanged(sel) {
 }
 
 // ***************************************************************************
+
+// Function to populate values in Test Subject ID No. dropdown (id="selDataset")
 
 function populateDropDownList() {
     let dropDownList = d3.select("#selDataset");
@@ -48,14 +47,17 @@ function populateDropDownList() {
 
 // ***************************************************************************
 
+// Function to populate table with demographic data
+
 function renderTable() {
     let demographicData = dataCache.metadata.filter(m => m.id == selector)[0];
+    console.log("DEMOGRAPHICDATA: ", demographicData);
 
     let keys = Object.keys(demographicData);
-    // console.log("DEMOGRAPHIC KEYS: ", `${keys}`);
+    console.log("DEMOGRAPHIC KEYS: ", keys);
 
     let values = Object.values(demographicData);    
-    // console.log("DEMOGRAPHIC VALUES: ", `${values}`);   
+    console.log("DEMOGRAPHIC VALUES: ", values);   
 
     d3.select("#demo-table").html("");
     let demoTable = d3.select("#demo-table").append("table").attr("class", "table table-striped");
@@ -67,35 +69,42 @@ function renderTable() {
 
 // ***************************************************************************
 
+// Sorting function
+
 function compareNumbers(a, b) {
     return b - a;
 }
 
 // ***************************************************************************
 
+// Function to create Plotly barchart
+
 function makeBarChart() {    
-    let sampleValues = dataCache.samples.filter(m => m.id == selector)[0]
+    let sampleValuesTop10 = dataCache.samples.filter(m => m.id == selector)[0]
         .sample_values.sort(compareNumbers)
         .slice(0,10)
         .reverse();
+    console.log("SAMPLE_VALUES_TOP10: ", sampleValuesTop10);
 
-    let sampleLabels = dataCache.samples.filter(m => m.id == selector)[0]
+    let sampleLabelsTop10 = dataCache.samples.filter(m => m.id == selector)[0]
         .otu_ids.sort(compareNumbers)
         .slice(0,10)
         .map((x) => ("OTU " + x))
         .reverse();           
+    console.log("SAMPLE_LABELS_TOP10: ", sampleLabelsTop10);
         
-    let otuLabels = dataCache.samples.filter(m => m.id == selector)[0]
-        .otu_labels.sort(compareNumbers);
-
-    // console.log("SAMPLE_VALUES = ", sampleValues);
+    let otuLabelsTop10 = dataCache.samples.filter(m => m.id == selector)[0]
+        .otu_labels.sort(compareNumbers)
+        .slice(0,10)
+        .reverse();
+    console.log("OTU_LABELS_TOP10: ", otuLabelsTop10);
     
     let trace = {
-        x: sampleValues, 
-        y: sampleLabels,
+        x: sampleValuesTop10, 
+        y: sampleLabelsTop10,
         type: "bar",
         orientation: "h",
-        text: otuLabels
+        text: otuLabelsTop10
     };
 
     let layout = {        
@@ -104,7 +113,7 @@ function makeBarChart() {
         },
         showlegend: false,
         xaxis: {
-            tickangle: -45
+            tickangle: 45
         },
         yaxis: {
             zeroline: false,
@@ -118,12 +127,14 @@ function makeBarChart() {
     Plotly.newPlot("barchart", data, layout);
   }
 
-
 // ***************************************************************************
-  
+
+// Function to create Plotly gauge chart
+
 function makeGaugeChart() {
 
-    let washFreq = dataCache.metadata.filter(m => m.id == selector)[0].wfreq;      
+    let washFreq = dataCache.metadata.filter(m => m.id == selector)[0].wfreq;   
+    console.log("WASHFREQ: ", washFreq);   
 
     let data = [
         {
@@ -153,16 +164,21 @@ function makeGaugeChart() {
 
 // ***************************************************************************
 
+// Function to create Plotly bubble chart
+
 function makeBubbleChart() {
 
     let otuIds = dataCache.samples.filter(m => m.id == selector)[0]
-        .otu_ids.sort(compareNumbers);              
-
+        .otu_ids.sort(compareNumbers);  
+    console.log("OTUIDS: ", otuIds);      
+    
     let sampleValues = dataCache.samples.filter(m => m.id == selector)[0]
         .sample_values.sort(compareNumbers);
+    console.log("SAMPLEVALUES: ", sampleValues);   
         
     let otuLabels = dataCache.samples.filter(m => m.id == selector)[0]
         .otu_labels.sort(compareNumbers);
+    console.log("OTULABELS: ", otuLabels);   
 
     let trace = {
         x: otuIds,
@@ -201,35 +217,23 @@ function makeBubbleChart() {
 
 // ***************************************************************************
 
+// Starter function to load json, populate dropdown list, and make default charts
+
 function init() {    
     d3.json(url).then( (fetchedData)=> {
 
-        dataCache = fetchedData;    
-
+        dataCache = fetchedData;  
+        console.log("DATACACHE: ", dataCache);
+  
         let names = fetchedData.names;
+        console.log("NAMES: ", names);
+
+        // Choose first selection in dropdown list as the default
         selector = names[0];    
-
-        let metadata = fetchedData.metadata;    
-        let samples = fetchedData.samples;
-
-        let otuIds = samples.filter(m => m.id == selector)[0]
-            .otu_ids.sort(compareNumbers);              
-
-        let sampleValues = samples.filter(m => m.id == selector)[0]
-            .sample_values.sort(compareNumbers);
-
-        let sampleLabels = dataCache.samples.filter(m => m.id == selector)[0]
-            .otu_ids.sort(compareNumbers)
-            .slice(0,10)
-            .map((x) => ("OTU " + x))
-            .reverse(); 
-            
-        let otuLabels = samples.filter(m => m.id == selector)[0]
-            .otu_labels.sort(compareNumbers);
-        
-        let washFreq = metadata.filter(m => m.id == selector)[0].wfreq;     
-         
+        console.log("SELECTOR: ", selector);
+                 
         populateDropDownList();   
+
         makeBarChart();
         makeBubbleChart();
         makeGaugeChart();    
