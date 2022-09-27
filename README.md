@@ -1,72 +1,48 @@
-# interactive-web-visualizations
+# **interactive-web-visualizations**
 
 ## William Vann
-## Homework 14 - **Demonstration of Interactive Plots with D3 and Plotly**
-
-<br>
-
-# Part 1: Scraping
+## Homework 14 - **Interactive Plots with D3 and Plotly**
+<hr>
 
 
-**This project demonstrates web scraping 4 different Mars-themed websites with BeautifulSoup and Splinter, as follows:**
+### **Methodology**
 
 
-1. [https://redplanetscience.com/](https://redplanetscience.com/)
-        
-        Scrape the latest Mars news title and accompanying news paragraph.
 
-2. [https://spaceimages-mars.com/](https://spaceimages-mars.com/)
+1. app.js loads the Belly Button Biodiversity dataset in as JSON from the endpoint url:
 
-        Scrape a featured Mars image url.
+- [https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json](https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json)
+      
+2. JSON is parsed and rendered into a _dropdown selector_ in [index.html](index.html)
 
-3. [https://galaxyfacts-mars.com/](https://galaxyfacts-mars.com/)
+3. JSON is parsed and rendered into a _demographics table_ in [index.html](index.html) for the id selected
 
-        Scrape an html table with Mars facts.
+4. JSON is parsed and rendered into the following Plotly plots in [index.html](index.html) for the id selected:
 
-4. [https://marshemispheres.com/](https://marshemispheres.com/)
+- _horizontal bar chart_ of top 10 operational taxonomic units, or OTUs, for id selected
+- _gauge chart_ visualizing belly button washing frequency for id selected
+- _bubble chart_ showing the dominant microbial species for id selected
 
-        Scrape high-resolution Mars hemisphere images with their titles.
+### **Files in this Repo**
 
 
-# Part 2: MongoDB and Flask Application
 
-**The web-scraped artefacts from Part 1 are stored in a MongoDB and served up via a Bootstrap-responsive Flask html template with customized CSS.**  
+1. [/static/js/app.js](app.js)
 
-### Files in this Repo
+        Contains all JavaScript logic for the interactive dashboard.
 
-1. [app.py](app.py)
+2. [index.html](index.html)
 
-        Flask app with index route and scrape route.
+        Main dashboard html webpage.
 
-2. [scrape_mars.py](scrape_mars.py)
-
-        Contains scrape() function which is called by scrape route in app.py.
-
-3. [mission_to_mars.ipynb](mission_to_mars.ipynb)
-
-        Jupyter notebook containing all scraping and analysis logic.
-
-4. [templates/index.html](templates/index.html)
-
-        Bootstrap-responsive Jinja2 template with all of the web-scraped Mars data served by Flask app.
-
-5. [static/css/style.css](static/css/style.css)
+3. [static/css/style.css](static/css/style.css)
 
         Customized CSS added over the Bootstrap CSS. 
 
-6. [screenshot_1.jpg](screenshot_1.jpg)
+4. [/images/innie.jpg](innie.jpg)
 
-        Screenshot of Flask app on large display.
+        Jpg of innie belly button from Wikimedia Commons.
 
-7. [screenshot_2.jpg](screenshot_2.jpg)
+5. [/images/outie.jpg](outie.jpg)
 
-        Screenshot of Flask app on mobile display.
-
-8. [screenshot_3.jpg](screenshot_3.jpg) 
-
-        Screenshot of automated splinter browser running.
-
-
-
-
-
+        Jpg of outie belly button from Wikimedia Commons.
