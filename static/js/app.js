@@ -5,44 +5,53 @@ const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/
 let dataCache;
 let selector;
 
+let sampleValues;
+let sampleLabels;
+
+let otuIds;
+let otuLabels;
+
+let washFreq;
+let names;
+
+
+
+
+
 // ***************************************************************************
 
 function optionChanged(sel) {
-
     selector = sel;    
 
     renderTable();
     makeBarChart();
     makeBubbleChart();
     makeGaugeChart();
-
 }
 
 // ***************************************************************************
 
 function populateDropDownList() {
-
     let dropDownList = d3.select("#selDataset");
+
     dropDownList.selectAll("option")
         .data(dataCache.names)
         .enter()
         .append("option")
         .text(function(d) {return d; })
         .attr("value", function(d) {return d; });  
-
 }
 
 // ***************************************************************************
 
 function renderTable() {
-
     let demographicData = dataCache.metadata.filter(m => m.id == selector)[0];
 
     let keys = Object.keys(demographicData);
-    console.log("DEMOGRAPHIC KEYS: ", `${keys}`);
+    // console.log("DEMOGRAPHIC KEYS: ", `${keys}`);
 
     let values = Object.values(demographicData);    
-    console.log("DEMOGRAPHIC VALUES: ", `${values}`);   
+    // console.log("DEMOGRAPHIC VALUES: ", `${values}`);   
 
     d3.select("#demo-table").html("");
     let demoTable = d3.select("#demo-table").append("table").attr("class", "table table-striped");
@@ -50,21 +59,17 @@ function renderTable() {
     for (let i=0; i<keys.length; i++) {
         demoTable.append("tbody").append("tr").text(keys[i]).append("td").text(values[i]);
     }
-
 }
 
 // ***************************************************************************
 
 function compareNumbers(a, b) {
-
     return b - a;
-
 }
 
 // ***************************************************************************
 
-function makeBarChart() {
-    
+function makeBarChart() {    
     let sampleValues = dataCache.samples.filter(m => m.id == selector)[0]
         .sample_values.sort(compareNumbers)
         .slice(0,10)
@@ -74,69 +79,41 @@ function makeBarChart() {
         .otu_ids.sort(compareNumbers)
         .slice(0,10)
         .map((x) => ("OTU " + x))
-        .reverse();               
-
-    console.log("SAMPLE_VALUES = ", sampleValues);
-    
-    let trace = {
-      x: sampleValues, 
-      y: sampleLabels,
-      type: "bar",
-      orientation: "h"
-    };
-  
-    let data = [trace];
-
-    Plotly.newPlot("barchart", data);
-
-  }
-
-// ***************************************************************************
-
-function makeBubbleChart() {
-
-    let otuIds = dataCache.samples.filter(m => m.id == selector)[0]
-        .otu_ids.sort(compareNumbers);              
-
-    let sampleValues = dataCache.samples.filter(m => m.id == selector)[0]
-        .sample_values.sort(compareNumbers);
+        .reverse();           
         
     let otuLabels = dataCache.samples.filter(m => m.id == selector)[0]
         .otu_labels.sort(compareNumbers);
 
+    // console.log("SAMPLE_VALUES = ", sampleValues);
+    
     let trace = {
-
-        x: otuIds,
-        y: sampleValues,
-        mode: "markers",
-        marker: {
-                    size: sampleValues,
-                    color: otuIds,
-                    colorscale: "Rainbow"
-                },
+        x: sampleValues, 
+        y: sampleLabels,
+        type: "bar",
+        orientation: "h",
         text: otuLabels
-             
-        
     };
-      
-    let data = [trace];
-    
-    let layout = {
-    
+
+    let layout = {        
+        font:{
+            family: 'Raleway, sans-serif'
+        },
         showlegend: false,
-        height: 1000,
-        width: 1250,
         xaxis: {
-            title: {
-              text: "OTU ID",
-                   }
-        }
-
+            tickangle: -45
+        },
+        yaxis: {
+            zeroline: false,
+            gridwidth: 2
+        },
+        bargap :0.05
     };
-      
-    Plotly.newPlot("bubblechart", data, layout);
+  
+    let data = [trace];
 
-}
+    Plotly.newPlot("barchart", data, layout);
+  }
+
 
 // ***************************************************************************
   
@@ -157,41 +134,83 @@ function makeGaugeChart() {
     
     let layout = { 
         width: 380, 
-        height: 400, 
+        height: 300, 
         margin: { 
                     t: 0, 
                     b: 0 
                 } 
         };
 
-    Plotly.newPlot("gaugechart", data, layout);
-       
+    Plotly.newPlot("gaugechart", data, layout);       
 }
-  
 
 // ***************************************************************************
 
+function makeBubbleChart() {
 
-function init() {
+    let otuIds = dataCache.samples.filter(m => m.id == selector)[0]
+        .otu_ids.sort(compareNumbers);              
 
-    // loadJson();    
+    let sampleValues = dataCache.samples.filter(m => m.id == selector)[0]
+        .sample_values.sort(compareNumbers);
+        
+    let otuLabels = dataCache.samples.filter(m => m.id == selector)[0]
+        .otu_labels.sort(compareNumbers);
+
+    let trace = {
+        x: otuIds,
+        y: sampleValues,
+        mode: "markers",
+        marker: {
+                    size: sampleValues,
+                    color: otuIds,
+                    colorscale: "Rainbow"
+                },
+        text: otuLabels            
+    };
+      
+    let data = [trace];
     
+    let layout = {    
+        showlegend: false,
+        height: 1000,
+        width: 1250,
+        xaxis:  { title: { text: "OTU ID" } }
+    };
+      
+    Plotly.newPlot("bubblechart", data, layout);
+}  
+
+// ***************************************************************************
+
+function init() {    
     d3.json(url).then( (fetchedData)=> {
 
-        dataCache = fetchedData;
-    
-        let names = fetchedData.names;
-        console.log("NAMES: ", names.slice(0,10));
+        dataCache = fetchedData;    
 
-        selector = names[0];
-        console.log("SELECTOR: ", selector);
-    
-        let metadata = fetchedData.metadata;
-        console.log("METADATA: ", metadata.slice(0,10));
-    
+        let names = fetchedData.names;
+        selector = names[0];    
+
+        let metadata = fetchedData.metadata;    
         let samples = fetchedData.samples;
-        console.log("SAMPLES: ", samples.slice(0,10));           
+
+        let otuIds = samples.filter(m => m.id == selector)[0]
+            .otu_ids.sort(compareNumbers);              
+
+        let sampleValues = samples.filter(m => m.id == selector)[0]
+            .sample_values.sort(compareNumbers);
+
+        let sampleLabels = dataCache.samples.filter(m => m.id == selector)[0]
+            .otu_ids.sort(compareNumbers)
+            .slice(0,10)
+            .map((x) => ("OTU " + x))
+            .reverse(); 
+            
+        let otuLabels = samples.filter(m => m.id == selector)[0]
+            .otu_labels.sort(compareNumbers);
         
+        let washFreq = metadata.filter(m => m.id == selector)[0].wfreq;     
+         
         populateDropDownList();   
         makeBarChart();
         makeBubbleChart();
