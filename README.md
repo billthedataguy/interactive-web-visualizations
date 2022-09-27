@@ -27,7 +27,7 @@
 
 
 
-1. [/static/js/app.js](app.js)
+1. [/interactive-web-visualizations/static/js/app.js](app.js)
 
         Contains all JavaScript logic for the interactive dashboard.
 
@@ -35,15 +35,15 @@
 
         Main dashboard html webpage.
 
-3. [static/css/style.css](static/css/style.css)
+3. [/interactive-web-visualizations/static/css/style.css](static/css/style.css)
 
         Customized CSS added over the Bootstrap CSS. 
 
-4. [/images/innie.jpg](innie.jpg)
+4. [/interactive-web-visualizations/static/images/innie.jpg](innie.jpg)
 
         Jpg of innie belly button from Wikimedia Commons.
 
-5. [/images/outie.jpg](outie.jpg)
+5. [/interactive-web-visualizations/static/images/outie.jpg](outie.jpg)
 
         Jpg of outie belly button from Wikimedia Commons.
 
