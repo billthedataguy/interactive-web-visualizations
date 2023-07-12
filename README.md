@@ -1,7 +1,7 @@
 # **interactive-web-visualizations**
 
 ## William Vann
-## Homework 14 - **Interactive Plots with D3 and Plotly**
+## **Interactive Plots with D3 and Plotly**
 <hr>
 
 
